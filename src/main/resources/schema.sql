@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS region (
+    id INTEGER PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    short_title VARCHAR(100) NOT NULL
+);
