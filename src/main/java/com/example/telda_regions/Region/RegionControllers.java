@@ -17,7 +17,6 @@ import java.util.List;
 @RequestMapping("api/regions")
 public class RegionControllers {
 
-  @Autowired
   private final RegionService regionService;
 
   public RegionControllers(RegionService regionService) {
@@ -43,7 +42,6 @@ public class RegionControllers {
   @PostMapping
   public RegionEntity createRegion(@RequestBody RegionEntity regionEntity) {
     return regionService.createRegion(regionEntity);
-
   }
 
   @PutMapping("/{id}")

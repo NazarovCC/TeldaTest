@@ -1,5 +1,6 @@
-package com.example.telda_regions.Region;
+package com.example.telda_regions.Region.mapper;
 
+import com.example.telda_regions.Region.RegionEntity;
 import org.apache.ibatis.annotations.*;
 import java.util.List;
 
