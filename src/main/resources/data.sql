@@ -1,2 +1,3 @@
-INSERT INTO region VALUES (1, 'SaintPetersburg', 'spb');
-INSERT INTO region VALUES (2, 'Moscow', 'msk');
+INSERT INTO region(title, short_title) VALUES ('SaintPetersburg', 'spb'),
+                                              ('Moscow', 'msk');
+-- INSERT INTO region(title, ) VALUES ('Moscow', 'msk');

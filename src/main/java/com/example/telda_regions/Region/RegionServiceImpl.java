@@ -4,6 +4,7 @@ import com.example.telda_regions.Region.mapper.RegionMapper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegionServiceImpl implements RegionService{
@@ -30,13 +31,20 @@ public class RegionServiceImpl implements RegionService{
   }
 
   @Override
+  @Transactional
   public RegionEntity createRegion(RegionEntity region) {
-    return regionMapper.insert(region);
+
+    regionMapper.insert(region);
+
+    return regionMapper.getLastCreatedRegion();
   }
 
   @Override
+  @Transactional
   public RegionEntity updateRegionById(Long id, RegionEntity region) {
-    return regionMapper.updateById(id, region);
+    regionMapper.updateById(id, region);
+
+    return regionMapper.findRegionById(id);
   }
 
 }

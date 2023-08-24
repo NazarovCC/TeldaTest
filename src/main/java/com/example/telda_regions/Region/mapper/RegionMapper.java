@@ -8,22 +8,35 @@ import java.util.List;
 public interface RegionMapper {
 
   @Select("select * from region where id = #{id}")
-  @ResultType(RegionEntity.class)
+  @Results(id = "regionEntityById", value = {
+      @Result(property = "id", column = "id",  id = true),
+      @Result(property = "title", column = "title"),
+      @Result(property = "shortTitle", column = "short_title")
+  })
   RegionEntity findRegionById(@Param("id") Long id);
 
   @Select("select * from region")
-  @ResultType(RegionEntity.class)
+  @Results(id = "regionEntityAll", value = {
+      @Result(property = "id", column = "id",  id = true),
+      @Result(property = "title", column = "title"),
+      @Result(property = "shortTitle", column = "short_title")
+  })
   List<RegionEntity> findAllRegions();
 
   @Delete("delete from region where id=#{id}")
   void deleteById(@Param("id") Long id);
 
   @Insert("insert into region(title, short_title) values (#{title}, #{shortTitle})")
-  @SelectKey(statement = "call identity()", keyProperty = "id", keyColumn = "id", before=false, resultType = Long.class)
-  @ResultType(RegionEntity.class)
-  RegionEntity insert(RegionEntity regionEntity);
+  void insert(RegionEntity regionEntity);
 
-  @Update("update region set title=#{title} short_title=#{shortTitle} where id=#{id}")
-  @ResultType(RegionEntity.class)
-  RegionEntity updateById(@Param("id") Long id, RegionEntity regionEntity);
+  @Update("update region set title=#{regionEntity.title}, short_title=#{regionEntity.shortTitle} where id=#{id}")
+  void updateById(@Param("id") Long id, RegionEntity regionEntity);
+
+  @Select("select * from region order by id DESC limit 1")
+  @Results(id = "regionEntityLimit1", value = {
+      @Result(property = "id", column = "id",  id = true),
+      @Result(property = "title", column = "title"),
+      @Result(property = "shortTitle", column = "short_title")
+  })
+  RegionEntity getLastCreatedRegion();
 }
