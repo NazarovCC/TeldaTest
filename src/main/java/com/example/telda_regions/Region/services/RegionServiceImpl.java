@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +39,6 @@ public class RegionServiceImpl implements RegionService{
   @Override
   @Cacheable(cacheNames = "allRegion")
   public List<RegionResponseDto> findAllRegion() {
-    System.out.println("1");
     List<RegionEntity> regionEntities = regionMapper.findAllRegions();
     return regionEntities.stream().map(regionDtoMapper::toDTO).collect(Collectors.toList());
   }
@@ -68,7 +68,14 @@ public class RegionServiceImpl implements RegionService{
 
   @Override
   @Transactional
-  @CachePut(value = {"allRegion", "regionById"}, key = "#id")
+  @Caching(
+      put = {
+          @CachePut(value = "regionById", key = "#id"),
+      },
+      evict = {
+          @CacheEvict(cacheNames = "allRegion", allEntries = true)
+      }
+  )
   public RegionResponseDto updateRegionById(Long id, RegionRequestDto region) {
 
     RegionEntity regionEntity = regionDtoMapper.toEntity(region);
