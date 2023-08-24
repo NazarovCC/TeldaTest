@@ -1,6 +1,7 @@
 package com.example.telda_regions.Region.mapper;
 
 import com.example.telda_regions.Region.entity.RegionEntity;
+import com.example.telda_regions.Region.providers.RegionSqlBuilder;
 import java.util.Optional;
 import org.apache.ibatis.annotations.*;
 import java.util.List;
@@ -9,16 +10,17 @@ import java.util.List;
 public interface RegionMapper {
 
   @Select("select * from region where id = #{id}")
+  @ResultMap("regionEntity")
+  Optional<RegionEntity> findById(@Param("id") Long id);
+
+//  @Select("select * from region")
+  @SelectProvider(type = RegionSqlBuilder.class, method = "regionsByParams")
   @Results(id = "regionEntity", value = {
       @Result(property = "id", column = "id",  id = true),
       @Result(property = "title", column = "title"),
       @Result(property = "shortTitle", column = "short_title")
   })
-  Optional<RegionEntity> findRegionById(@Param("id") Long id);
-
-  @Select("select * from region")
-  @ResultMap("regionEntity")
-  List<RegionEntity> findAllRegions();
+  List<RegionEntity> findAll(@Param("title") String title, @Param("shortTitle") String shortTitle);
 
   @Delete("delete from region where id=#{id}")
   void deleteById(@Param("id") Long id);

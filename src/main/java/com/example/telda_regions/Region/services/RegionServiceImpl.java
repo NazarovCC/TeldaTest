@@ -7,10 +7,7 @@ import com.example.telda_regions.Region.entity.RegionEntity;
 import com.example.telda_regions.Region.mapper.RegionMapper;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
+import org.springframework.cache.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +18,8 @@ public class RegionServiceImpl implements RegionService{
 
   private final RegionMapper regionMapper;
   private final RegionDtoMapper regionDtoMapper;
+  private final static String REGION_BY_ID = "regionById";
+  private final static String ALL_REGION = "allRegion";
 
   public RegionServiceImpl(RegionMapper regionMapper, RegionDtoMapper regionDtoMapper) {
     this.regionMapper = regionMapper;
@@ -28,33 +27,33 @@ public class RegionServiceImpl implements RegionService{
   }
 
   @Override
-  @Cacheable(value = "regionById", key = "#id")
+  @Cacheable(value = REGION_BY_ID, key = "#id")
   public RegionResponseDto findRegionById(Long id) {
     RegionEntity regionEntity = regionMapper
-        .findRegionById(id)
+        .findById(id)
         .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseExceptionMessage.NOT_FOUND.getMessage()));
     return regionDtoMapper.toDTO(regionEntity);
   }
 
   @Override
-  @Cacheable(cacheNames = "allRegion")
-  public List<RegionResponseDto> findAllRegion() {
-    List<RegionEntity> regionEntities = regionMapper.findAllRegions();
+  @Cacheable(cacheNames = ALL_REGION)
+  public List<RegionResponseDto> findAllRegion(String title, String shortTitle) {
+    List<RegionEntity> regionEntities = regionMapper.findAll(title, shortTitle);
     return regionEntities.stream().map(regionDtoMapper::toDTO).collect(Collectors.toList());
   }
 
   @Override
-  @CacheEvict(cacheNames = "allRegion", allEntries = true)
+  @CacheEvict(cacheNames = ALL_REGION, allEntries = true)
   public void deleteRegionById(Long id) {
-    RegionEntity region = regionMapper
-        .findRegionById(id)
+    regionMapper
+        .findById(id)
         .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseExceptionMessage.NOT_FOUND.getMessage()));
     regionMapper.deleteById(id);
   }
 
   @Override
   @Transactional
-  @CacheEvict(cacheNames = "allRegion", allEntries = true)
+  @CacheEvict(cacheNames = ALL_REGION, allEntries = true)
   public RegionResponseDto createRegion(RegionRequestDto region) {
 
     RegionEntity regionEntity = regionDtoMapper.toEntity(region);
@@ -70,10 +69,10 @@ public class RegionServiceImpl implements RegionService{
   @Transactional
   @Caching(
       put = {
-          @CachePut(value = "regionById", key = "#id"),
+          @CachePut(value = REGION_BY_ID, key = "#id"),
       },
       evict = {
-          @CacheEvict(cacheNames = "allRegion", allEntries = true)
+          @CacheEvict(cacheNames = ALL_REGION, allEntries = true)
       }
   )
   public RegionResponseDto updateRegionById(Long id, RegionRequestDto region) {
@@ -83,7 +82,7 @@ public class RegionServiceImpl implements RegionService{
     regionMapper.updateById(id, regionEntity);
 
     RegionEntity updatedRegionEntity = regionMapper
-        .findRegionById(id)
+        .findById(id)
         .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseExceptionMessage.NOT_FOUND.getMessage()));
 
     return regionDtoMapper.toDTO(updatedRegionEntity);

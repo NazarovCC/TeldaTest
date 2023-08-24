@@ -7,7 +7,7 @@ import java.util.List;
 public interface RegionService {
   RegionResponseDto findRegionById(Long id);
 
-  List<RegionResponseDto> findAllRegion();
+  List<RegionResponseDto> findAllRegion(String title, String shortTitle);
 
   void deleteRegionById(Long id);
 
