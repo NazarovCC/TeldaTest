@@ -12,7 +12,7 @@
 ### API
  - [GET]: 
    - `api/regions` - получение всех регионов
-     - **PARAMS** `title, shortTitle` 
+     - **PARAMS** `title, shortTitle` (необязательные)
    - `api/regions/{id}` - получение региона по id
  - [POST]:
    - `api/regions` - добавление региона
