@@ -4,6 +4,9 @@
 ### Запуск проекта в docker-compose
  - воспользоваться командой, для поднятия контейнера, 
    `docker-compose -f docker-compose.yaml up -d`
+ - `http://localhost:8181`
+### Запуск проекта без docker-compose
+- `http://localhost:8081`
 <hr/>
 
 ### API
