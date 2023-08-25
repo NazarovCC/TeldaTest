@@ -1,0 +1,13 @@
+services:
+  server:
+    container_name: server
+    image: client:0.0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    environment:
+      - SERVER_PORT= 8081
+    ports:
+      - "8181:8081"
+    restart: unless-stopped
