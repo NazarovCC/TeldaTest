@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+    <Console name="CONSOLE" target="SYSTEM_OUT">
+      <PatternLayout pattern="%style{%d{dd.MM.yyyy HH:mm:ss}}{pink} | %style{%r [%t]}{blue} | %style{%p %c %x}{yellow} | %style{%m%n}{green}"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Logger name="com.example.telda_regions" additivity="false">
+      <AppenderRef ref="CONSOLE"/>
+    </Logger>
+    <Root name="com.example.telda_regions" level="info">
+      <AppenderRef ref="CONSOLE"/>
+    </Root>
+    <Logger name="main.logger" level="trace"></Logger>
+  </Loggers>
+</Configuration>

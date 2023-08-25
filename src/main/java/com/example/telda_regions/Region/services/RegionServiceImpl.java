@@ -7,6 +7,8 @@ import com.example.telda_regions.Region.entity.RegionEntity;
 import com.example.telda_regions.Region.mapper.RegionMapper;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class RegionServiceImpl implements RegionService{
   private final RegionDtoMapper regionDtoMapper;
   private final static String REGION_BY_ID = "regionById";
   private final static String ALL_REGION = "allRegion";
+  private static Logger logger = LoggerFactory.getLogger(RegionServiceImpl.class);
 
   public RegionServiceImpl(RegionMapper regionMapper, RegionDtoMapper regionDtoMapper) {
     this.regionMapper = regionMapper;
