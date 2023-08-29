@@ -1,6 +1,6 @@
 package com.example.telda_regions;
 
-import com.example.telda_regions.Region.entity.RegionEntity;
+import com.example.telda_regions.region.entity.RegionEntity;
 import org.apache.ibatis.type.MappedTypes;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -16,5 +16,4 @@ public class TeldaRegionsApplication {
   public static void main(String[] args) {
     SpringApplication.run(TeldaRegionsApplication.class, args);
   }
-
 }

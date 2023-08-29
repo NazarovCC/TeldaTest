@@ -1,10 +1,12 @@
-package com.example.telda_regions.Region.services;
+package com.example.telda_regions.region.services;
 
-import com.example.telda_regions.Region.dto.RegionRequestDto;
-import com.example.telda_regions.Region.dto.RegionResponseDto;
+import com.example.telda_regions.region.dto.RegionRequestDto;
+import com.example.telda_regions.region.dto.RegionResponseDto;
+
 import java.util.List;
 
 public interface RegionService {
+
   RegionResponseDto findRegionById(Long id);
 
   List<RegionResponseDto> findAllRegion(String title, String shortTitle);
@@ -14,5 +16,4 @@ public interface RegionService {
   RegionResponseDto createRegion(RegionRequestDto region);
 
   RegionResponseDto updateRegionById(Long id, RegionRequestDto region);
-
 }

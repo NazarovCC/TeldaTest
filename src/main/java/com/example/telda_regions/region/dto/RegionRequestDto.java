@@ -1,6 +1,7 @@
-package com.example.telda_regions.Region.dto;
+package com.example.telda_regions.region.dto;
 
 public class RegionRequestDto {
+
   private String title;
   private String shortTitle;
 

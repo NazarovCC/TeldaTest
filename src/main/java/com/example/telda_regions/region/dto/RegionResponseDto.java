@@ -1,11 +1,9 @@
-package com.example.telda_regions.Region.dto;
+package com.example.telda_regions.region.dto;
 
 public class RegionResponseDto {
 
   private Long id;
-
   private String title;
-
   private String shortTitle;
 
   public Long getId() {

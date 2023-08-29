@@ -1,11 +1,12 @@
-package com.example.telda_regions.Region.services;
+package com.example.telda_regions.region.services;
 
 public enum ResponseExceptionMessage {
+
   NOT_FOUND("Регион не найден");
 
   private final String message;
 
-  private ResponseExceptionMessage(String message) {
+  ResponseExceptionMessage(String message) {
     this.message = message;
   }
 

@@ -1,7 +1,7 @@
 package com.example.telda_regions;
 
-import com.example.telda_regions.Region.dto.RegionResponseDto;
-import com.example.telda_regions.Region.services.RegionService;
+import com.example.telda_regions.region.dto.RegionResponseDto;
+import com.example.telda_regions.region.services.RegionService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

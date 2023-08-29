@@ -1,8 +1,9 @@
-package com.example.telda_regions.Region.entity;
+package com.example.telda_regions.region.entity;
 
 import java.util.Objects;
 
 public class RegionEntity {
+
   private Long id;
   private String title;
   private String shortTitle;
@@ -41,7 +42,7 @@ public class RegionEntity {
     }
     RegionEntity that = (RegionEntity) o;
     return Objects.equals(id, that.id) && Objects.equals(title, that.title)
-        && Objects.equals(shortTitle, that.shortTitle);
+      && Objects.equals(shortTitle, that.shortTitle);
   }
 
   @Override
@@ -52,10 +53,9 @@ public class RegionEntity {
   @Override
   public String toString() {
     return "RegionEntity{" +
-        "id=" + id +
-        ", title='" + title + '\'' +
-        ", shortTitle='" + shortTitle + '\'' +
-        '}';
+      "id=" + id +
+      ", title='" + title + '\'' +
+      ", shortTitle='" + shortTitle + '\'' +
+      '}';
   }
 }
-
