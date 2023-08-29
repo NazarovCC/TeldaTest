@@ -9,14 +9,20 @@
     <version>3.1.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
+
   <groupId>com.example</groupId>
   <artifactId>Telda_Regions</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Telda_Regions</name>
-  <description>Telda_Regions</description>
+
   <properties>
     <java.version>17</java.version>
+    <mybatis.spring.boot.starter.version>3.0.2</mybatis.spring.boot.starter.version>
+    <h2database.version>2.1.214</h2database.version>
+    <mapstruct.version>1.5.5.Final</mapstruct.version>
+    <springdoc.openapi.starter.version>2.2.0</springdoc.openapi.starter.version>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -31,30 +37,33 @@
     <dependency>
       <groupId>org.mybatis.spring.boot</groupId>
       <artifactId>mybatis-spring-boot-starter</artifactId>
-      <version>3.0.2</version>
+      <version>${mybatis.spring.boot.starter.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.mybatis.spring.boot</groupId>
       <artifactId>mybatis-spring-boot-starter-test</artifactId>
-      <version>3.0.2</version>
+      <version>${mybatis.spring.boot.starter.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>2.1.214</version>
+      <version>${h2database.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
-      <version>1.5.5.Final</version>
+      <version>${mapstruct.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -64,11 +73,7 @@
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>2.2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-log4j2</artifactId>
+      <version>${springdoc.openapi.starter.version}</version>
     </dependency>
   </dependencies>
 
@@ -90,7 +95,7 @@
             <path>
               <groupId>org.mapstruct</groupId>
               <artifactId>mapstruct-processor</artifactId>
-              <version>1.5.3.Final</version>
+              <version>${mapstruct.version}</version>
             </path>
           </annotationProcessorPaths>
         </configuration>
