@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/regions")
-@Tag(name = "REST для регионов")
+@Tag(name = "REST for regions")
 public class RegionControllers {
 
   private final RegionService regionService;
@@ -22,37 +22,37 @@ public class RegionControllers {
   }
 
   @GetMapping
-  @Operation(summary = "Получение всех регионов")
+  @Operation(summary = "Getting all regions")
   public List<RegionResponseDto> getAllRegions(
-    @RequestParam(required = false) @Parameter(description = "для поиска регионов по title") String title,
-    @RequestParam(required = false) @Parameter(description = "для поиска регионов по shortTitle") String shortTitle) {
+    @RequestParam(required = false) @Parameter(description = "param title") String title,
+    @RequestParam(required = false) @Parameter(description = "param shortTitle") String shortTitle) {
     return regionService.findAllRegion(title, shortTitle);
   }
 
   @GetMapping("/{id}")
-  @Operation(summary = "Получение региона по id")
+  @Operation(summary = "Getting region by id")
   public RegionResponseDto getRegionById(
-    @PathVariable @Parameter(description = "id для поиска региона") Long id) {
+    @PathVariable @Parameter(description = "id for getting region") Long id) {
     return regionService.findRegionById(id);
   }
 
   @DeleteMapping("/{id}")
-  @Operation(summary = "Удаление региона")
+  @Operation(summary = "Deleting region")
   public void deleteRegion(
-    @PathVariable("id") @Parameter(description = "id для удаления региона") Long id) {
+    @PathVariable("id") @Parameter(description = "id for deleting region") Long id) {
     regionService.deleteRegionById(id);
   }
 
   @PostMapping
-  @Operation(summary = "Создание региона")
+  @Operation(summary = "Creating region")
   public RegionResponseDto createRegion(@RequestBody RegionRequestDto regionDto) {
     return regionService.createRegion(regionDto);
   }
 
   @PutMapping("/{id}")
-  @Operation(summary = "Обновление региона")
+  @Operation(summary = "Updating region")
   public RegionResponseDto updateRegionById(
-    @PathVariable("id") @Parameter(description = "id для обновления региона") Long id,
+    @PathVariable("id") @Parameter(description = "id for updating region") Long id,
     @RequestBody RegionRequestDto regionDto) {
     return regionService.updateRegionById(id, regionDto);
   }
