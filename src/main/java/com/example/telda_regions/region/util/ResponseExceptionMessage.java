@@ -1,4 +1,4 @@
-package com.example.telda_regions.region.services;
+package com.example.telda_regions.region.util;
 
 public enum ResponseExceptionMessage {
 

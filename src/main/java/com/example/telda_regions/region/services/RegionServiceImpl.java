@@ -9,6 +9,7 @@ import com.example.telda_regions.region.mapper.RegionMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.telda_regions.region.util.ResponseExceptionMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.*;
@@ -20,11 +21,13 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class RegionServiceImpl implements RegionService {
 
+  private static final Logger logger = LoggerFactory.getLogger(RegionServiceImpl.class);
+
   private final RegionMapper regionMapper;
   private final RegionDtoMapper regionDtoMapper;
+
   private final static String REGION_BY_ID = "regionById";
   private final static String ALL_REGION = "allRegion";
-  private static Logger logger = LoggerFactory.getLogger(RegionServiceImpl.class);
 
   public RegionServiceImpl(RegionMapper regionMapper, RegionDtoMapper regionDtoMapper) {
     this.regionMapper = regionMapper;
@@ -34,43 +37,50 @@ public class RegionServiceImpl implements RegionService {
   @Override
   @Cacheable(value = REGION_BY_ID, key = "#id")
   public RegionResponseDto findRegionById(Long id) {
-    logger.info("get по id запрос выполняется");
+    logger.info("Requesting region by id: " + id);
     RegionEntity regionEntity = regionMapper
       .findById(id)
-      .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseExceptionMessage.NOT_FOUND.getMessage()));
-    logger.info("get по id запрос выполнился");
+      .orElseThrow(() -> {
+        logger.info("Not found region by id: " + id);
+        return new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseExceptionMessage.NOT_FOUND.getMessage());
+      });
+    logger.info("Found: " + regionEntity);
     return regionDtoMapper.toDTO(regionEntity);
   }
 
   @Override
   @Cacheable(cacheNames = ALL_REGION)
   public List<RegionResponseDto> findAllRegion(String title, String shortTitle) {
-    logger.info("get запрос выполняется");
+    logger.info("Requesting all regions with parameters: title = " + title + ", shortTitle = " + shortTitle);
     List<RegionEntity> regionEntities = regionMapper.findAll(title, shortTitle);
-    logger.info("get запрос выполнился");
+    logger.info("Found: " + regionEntities.size() + " regions");
     return regionEntities.stream().map(regionDtoMapper::toDTO).collect(Collectors.toList());
   }
 
   @Override
   @CacheEvict(cacheNames = ALL_REGION, allEntries = true)
   public void deleteRegionById(Long id) {
-    logger.info("delete запрос выполняется");
-    regionMapper
+    logger.info("Requesting region by id: " + id);
+    RegionEntity regionEntity = regionMapper
       .findById(id)
-      .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseExceptionMessage.NOT_FOUND.getMessage()));
+      .orElseThrow(() ->
+      {
+        logger.info("Not found region by id: " + id);
+        return new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseExceptionMessage.NOT_FOUND.getMessage());
+      });
     regionMapper.deleteById(id);
-    logger.info("delete запрос выполнился");
+    logger.info("Delete: " + regionEntity);
   }
 
   @Override
   @Transactional
   @CacheEvict(cacheNames = ALL_REGION, allEntries = true)
   public RegionResponseDto createRegion(RegionRequestDto region) {
-    logger.info("post запрос выполняется");
+    logger.info("Creating region");
     RegionEntity regionEntity = regionDtoMapper.toEntity(region);
     regionMapper.insert(regionEntity);
     RegionEntity newRegionEntity = regionMapper.getLastCreatedRegion();
-    logger.info("post запрос выполнился");
+    logger.info("Create: " + newRegionEntity);
     return regionDtoMapper.toDTO(newRegionEntity);
   }
 
@@ -85,13 +95,16 @@ public class RegionServiceImpl implements RegionService {
     }
   )
   public RegionResponseDto updateRegionById(Long id, RegionRequestDto region) {
-    logger.info("put по id запрос выполняется");
+    logger.info("Updating region by id: " + id);
     RegionEntity regionEntity = regionDtoMapper.toEntity(region);
     regionMapper.updateById(id, regionEntity);
     RegionEntity updatedRegionEntity = regionMapper
       .findById(id)
-      .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseExceptionMessage.NOT_FOUND.getMessage()));
-    logger.info("put по id запрос выполнился");
+      .orElseThrow(() -> {
+        logger.info("Not found region by id: " + id);
+        return new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseExceptionMessage.NOT_FOUND.getMessage());
+      });
+    logger.info("Update: " + updatedRegionEntity);
     return regionDtoMapper.toDTO(updatedRegionEntity);
   }
 }
